@@ -3,7 +3,7 @@ import {
   CapacitorBarcodeScanner,
   CapacitorBarcodeScannerTypeHint,
 } from "@capacitor/barcode-scanner";
-
+import { Clipboard } from '@capacitor/clipboard';
 import { Platform } from "@ionic/angular";
 import { AppStorageService } from "../app-storage.service";
 import { BARCODE_HISTORY } from "../app.constants";
@@ -15,9 +15,9 @@ import { Barcode } from "../model/barcode";
   styleUrls: ["tab1.page.scss"],
 })
 export class Tab1Page {
-  scanResult = "";
-  //barcodeArray: Array<Barcode> = []
-  barcodeArray: Barcode[] = [];
+  
+  clipboardResult = "";
+  clipboardArray: Barcode[] = [];
 
   constructor(
     private platform: Platform,
@@ -28,7 +28,7 @@ export class Tab1Page {
     const data = await this.appStorage.get(BARCODE_HISTORY);
 
     if (data) {
-      this.barcodeArray = data;
+      this.clipboardArray = data;
     } else {
       // generate some mock data
       this.generateMockData();
@@ -42,42 +42,36 @@ export class Tab1Page {
       const date = new Date(now.getTime() - index * 24 * 60 * 60 * 1000);
       const barcode = new Barcode(this.generateRandomCode(), date);
 
-      this.barcodeArray.push(barcode);
+      this.clipboardArray.push(barcode);
     }
   }
 
   private generateRandomCode() {
-    return "0062639348571"; // not random, but testing code for https://upcdatabase.org
+    return "0062639348571";
     return Math.floor(100000000 + Math.random() * 900000000).toString();
   }
 
-  async scanBarcode() {
-    console.log("scan");
+  async getClipboardContent() {
+    console.log("Getting Clipboard Content");
 
-    let scanResult = "";
+    try {
+      let { value } = await Clipboard.read();
 
-    if (this.platform.is("android") || this.platform.is("ios")) {
-      // native barcode scanner
-      try {
-        const result = await CapacitorBarcodeScanner.scanBarcode({
-          hint: CapacitorBarcodeScannerTypeHint.ALL,
-        });
-        console.log("Scan Result: ", result);
-        scanResult = result.ScanResult;
-      } catch (error) {
-        const errorMessage = (error as Error).message || "Unknown error occurred";
-        console.error("Scan Error: ", errorMessage);
-        scanResult = "Error during scan";
+      if (!value) {
+        value = "Empty clipboard"
       }
-    } else {
-      scanResult = this.generateRandomCode();
+
+      console.log("Clipboard Result: ", value);
+      this.clipboardResult = value;
+
+      const clipboardData = new Barcode(value);
+      this.clipboardArray.unshift(clipboardData);
+
+      this.appStorage.set(BARCODE_HISTORY, this.clipboardArray);
+    } catch (error) {
+      const errorMessage = (error as Error).message || "Unknown error occurred";
+      console.error("Clipboard Error: ", errorMessage);
+      this.clipboardResult = "Clipboard Error: " + errorMessage;
     }
-
-    // display scan result on UI
-    this.scanResult = scanResult;
-    const barcode = new Barcode(scanResult);
-    this.barcodeArray.unshift(barcode);
-
-    this.appStorage.set(BARCODE_HISTORY, this.barcodeArray);
   }
 }

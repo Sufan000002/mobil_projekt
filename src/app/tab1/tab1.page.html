@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Scanner
+      Clipboard Saver
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,18 +10,18 @@
   <ion-header collapse="condense">
     <ion-toolbar>
 
-      <ion-title size="large"><ion-icon aria-hidden="true" name="qr-code-outline"></ion-icon> Scanner</ion-title>
+      <ion-title size="large"><ion-icon aria-hidden="true" name="qr-code-outline"></ion-icon>Clipboard Saver</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-button (click)="scanBarcode()" expand="block" class="ion-padding">Scan barcode</ion-button>
+  <ion-button (click)="getClipboardContent()" expand="block" class="ion-padding">Save Clipboard</ion-button>
 
   <ion-card>
     <ion-card-header>
       <ion-card-title>
-      {{ scanResult }}
+      {{ clipboardResult }}
       </ion-card-title>
-      <ion-card-subtitle>Scanned code</ion-card-subtitle>
+      <ion-card-subtitle>Clipboard</ion-card-subtitle>
     </ion-card-header>
   </ion-card>
 
