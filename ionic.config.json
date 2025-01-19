@@ -1,0 +1,7 @@
+{
+  "name": "IonicBarcode",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
