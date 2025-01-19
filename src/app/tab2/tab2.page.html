@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title> Scanning history </ion-title>
+    <ion-title>Scanning history</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -17,10 +17,10 @@
         {{ group.key | date: 'dd.MM.YYYY' }}
       </ion-item-divider>
       <ion-item-sliding *ngFor="let item of group.list">
-        <ion-item (click)="goToDetail(item.code)">
+        <ion-item (click)="copyToClipboard(item)">
           <ion-label>
             <h3>{{ item.code }}</h3>
-            <p>{{ item.date | date: 'HH:mm:ss'}}</p>
+            <p>{{ item.date | date: 'HH:mm:ss' }}</p>
           </ion-label>
         </ion-item>
 
