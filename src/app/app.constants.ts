@@ -1,0 +1,1 @@
+export const BARCODE_HISTORY = 'barcode-history'

@@ -1,0 +1,7 @@
+{
+    "/product/*" : {
+        "target": "https://api.upcdatabase.org",
+        "secure": false,
+        "changeOrigin": true
+    }
+}
