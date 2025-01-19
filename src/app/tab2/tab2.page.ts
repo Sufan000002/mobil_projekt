@@ -4,6 +4,7 @@ import { BARCODE_HISTORY } from "../app.constants";
 import { Barcode } from "../model/barcode";
 import { Router } from "@angular/router";
 import { Clipboard } from '@capacitor/clipboard';
+import { gv } from 'src/global_variables';
 
 @Component({
   selector: "app-tab2",
@@ -43,8 +44,15 @@ export class Tab2Page {
 
     try {
         let content = item.code;
+        if (gv.includeSignature)
+        {
+          content = content + "\n\nThis content has been saved and copied thanks to ClipboardSaver. Install ClipboardSaver from the Play Store."
+        }
         await Clipboard.write({ string: content });
         console.log("Content copied to clipboard:", content);
+        if (gv.deleteAfterCopy) {
+          this.deleteBarcode(item);
+        }
     } catch (error) {
         const errorMessage = (error as Error).message || "Unknown error occurred";
         console.error("Clipboard Copy Error:", errorMessage);
