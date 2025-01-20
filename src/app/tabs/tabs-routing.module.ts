@@ -18,7 +18,7 @@ const routes: Routes = [
           import("../tab2/tab2.module").then((m) => m.Tab2PageModule),
       },
       {
-        path: "history-detail/:barcode",
+        path: "history-detail/:clipboard",
         loadChildren: () =>
           import("../detail/detail.module").then((m) => m.DetailPageModule),
       },

@@ -1,4 +1,4 @@
-export class Barcode {
+export class ClipboardObj {
     code: string;
     date: Date;
 

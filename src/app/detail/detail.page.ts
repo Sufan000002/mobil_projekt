@@ -9,7 +9,7 @@ import { UpcResponse } from "../model/upc-response";
   styleUrls: ["./detail.page.scss"],
 })
 export class DetailPage implements OnInit {
-  barcode: string | null = null;
+  clipboard: string | null = null;
   upcResponse?: UpcResponse;
 
   constructor(
@@ -18,13 +18,13 @@ export class DetailPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.barcode = this.route.snapshot.paramMap.get("barcode");
+    this.clipboard = this.route.snapshot.paramMap.get("clipboard");
 
-    if (this.barcode) {
-      let unwrappedBarcode = this.barcode;
+    if (this.clipboard) {
+      let unwrappedClipboard = this.clipboard;
 
       // API request
-      this.upcService.getData(unwrappedBarcode).subscribe({
+      this.upcService.getData(unwrappedClipboard).subscribe({
         next: (data) => {
           console.log(data);
           this.upcResponse = data;

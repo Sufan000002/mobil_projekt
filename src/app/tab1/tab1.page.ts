@@ -1,13 +1,10 @@
 import { Component, runInInjectionContext } from "@angular/core";
-import {
-  CapacitorBarcodeScanner,
-  CapacitorBarcodeScannerTypeHint,
-} from "@capacitor/barcode-scanner";
+
 import { Clipboard } from '@capacitor/clipboard';
 import { Platform } from "@ionic/angular";
 import { AppStorageService } from "../app-storage.service";
-import { BARCODE_HISTORY } from "../app.constants";
-import { Barcode } from "../model/barcode";
+import { CLIPBOARD_HISTORY } from "../app.constants";
+import { ClipboardObj } from "../model/clipboard";
 
 @Component({
   selector: "app-tab1",
@@ -17,7 +14,7 @@ import { Barcode } from "../model/barcode";
 export class Tab1Page {
   
   clipboardResult = "";
-  clipboardArray: Barcode[] = [];
+  clipboardArray: ClipboardObj[] = [];
 
   constructor(
     private platform: Platform,
@@ -25,7 +22,7 @@ export class Tab1Page {
   ) {}
 
   async ionViewDidEnter() {
-    const data = await this.appStorage.get(BARCODE_HISTORY);
+    const data = await this.appStorage.get(CLIPBOARD_HISTORY);
 
     if (data) {
       this.clipboardArray = data;
@@ -40,9 +37,9 @@ export class Tab1Page {
 
     for (let index = 0; index < 10; index++) {
       const date = new Date(now.getTime() - index * 24 * 60 * 60 * 1000);
-      const barcode = new Barcode(this.generateRandomCode(), date);
+      const clipboard = new ClipboardObj(this.generateRandomCode(), date);
 
-      this.clipboardArray.push(barcode);
+      this.clipboardArray.push(clipboard);
     }
   }
 
@@ -64,10 +61,10 @@ export class Tab1Page {
       console.log("Clipboard Result: ", value);
       this.clipboardResult = value;
 
-      const clipboardData = new Barcode(value);
+      const clipboardData = new ClipboardObj(value);
       this.clipboardArray.unshift(clipboardData);
 
-      this.appStorage.set(BARCODE_HISTORY, this.clipboardArray);
+      this.appStorage.set(CLIPBOARD_HISTORY, this.clipboardArray);
     } catch (error) {
       const errorMessage = (error as Error).message || "Unknown error occurred";
       console.error("Clipboard Error: ", errorMessage);

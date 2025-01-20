@@ -1,1 +1,1 @@
-export const BARCODE_HISTORY = 'barcode-history'
+export const CLIPBOARD_HISTORY = 'clipboard-history'

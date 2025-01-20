@@ -10,8 +10,8 @@ import { UpcResponse } from "../model/upc-response";
 export class UpcService {
   constructor(private http: HttpClient) {}
 
-  getData(barcode: string): Observable<UpcResponse> {
-    const url = `${environment.apiUrl}/${barcode}?apikey=${environment.apiKey}`;
+  getData(clipboardString: string): Observable<UpcResponse> {
+    const url = `${environment.apiUrl}/${clipboardString}?apikey=${environment.apiKey}`;
 
     const header = new HttpHeaders({
       Authorization: `Bearer ${environment.apiKey}`,
